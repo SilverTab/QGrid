@@ -44,8 +44,10 @@ struct PeopleView: View {
           columnsInLandscape: Int(self.columns),
           vSpacing: min(self.vSpacing, self.vSpacingMax(geometry)),
           hSpacing: max(min(self.hSpacing, self.hSpacingMax(geometry)), 0.0),
-          vPadding: min(self.vPadding, self.vPaddingMax(geometry)),
-          hPadding: max(min(self.hPadding, self.hPaddingMax(geometry)), 0.0)) {
+          padding: EdgeInsets(top: min(self.vPadding, self.vPaddingMax(geometry)),
+                              leading: max(min(self.hPadding, self.hPaddingMax(geometry)), 0.0),
+                              bottom: min(self.vPadding, self.vPaddingMax(geometry)),
+                              trailing: max(min(self.hPadding, self.hPaddingMax(geometry)), 0.0))) {
       GridCell(person: $0)
     }
   }

@@ -39,8 +39,7 @@ public struct QGrid<Data, Content>: View
   private let columnsInLandscape: Int
   private let vSpacing: CGFloat
   private let hSpacing: CGFloat
-  private let vPadding: CGFloat
-  private let hPadding: CGFloat
+  private let padding: EdgeInsets
   
   private let data: [Data.Element]
   private let content: (Data.Element) -> Content
@@ -56,16 +55,14 @@ public struct QGrid<Data, Content>: View
   ///     - columnsInLandscape: Target number of columns for this grid, in Landscape device orientation; If not provided, `columns` value will be used.
   ///     - vSpacing: Vertical spacing: The distance between each row in grid. If not provided, the default value will be used.
   ///     - hSpacing: Horizontal spacing: The distance between each cell in grid's row. If not provided, the default value will be used.
-  ///     - vPadding: Vertical padding: The distance between top/bottom edge of the grid and the parent view. If not provided, the default value will be used.
-  ///     - hPadding: Horizontal padding: The distance between leading/trailing edge of the grid and the parent view. If not provided, the default value will be used.
+  ///     - padding: Padding: The distance between the edges of the grid and the parent view. If not provided, the default value will be used.
   ///     - content: A closure returning the content of the individual cell
   public init(_ data: Data,
               columns: Int,
               columnsInLandscape: Int? = nil,
               vSpacing: CGFloat = 10,
               hSpacing: CGFloat = 10,
-              vPadding: CGFloat = 10,
-              hPadding: CGFloat = 10,
+              padding: EdgeInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10),
               content: @escaping (Data.Element) -> Content) {
     self.data = data.map { $0 }
     self.content = content
@@ -73,8 +70,8 @@ public struct QGrid<Data, Content>: View
     self.columnsInLandscape = columnsInLandscape ?? max(1, columns)
     self.vSpacing = vSpacing
     self.hSpacing = hSpacing
-    self.vPadding = vPadding
-    self.hPadding = hPadding
+    self.padding = padding
+    
   }
   
   // MARK: - COMPUTED PROPERTIES
@@ -104,8 +101,7 @@ public struct QGrid<Data, Content>: View
           }
         }
       }
-      .padding(.horizontal, self.hPadding)
-      .padding(.vertical, self.vPadding)
+      .padding(self.padding)
     }
   }
   
@@ -128,7 +124,7 @@ public struct QGrid<Data, Content>: View
   
   private func contentWidthFor(_ geometry: GeometryProxy) -> CGFloat {
     let hSpacings = hSpacing * (CGFloat(self.cols) - 1)
-    let width = geometry.size.width - hSpacings - hPadding * 2
+    let width = geometry.size.width - hSpacings - (padding.leading + padding.trailing) * 2
     return width / CGFloat(self.cols)
   }
 }
