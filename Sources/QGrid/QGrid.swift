@@ -124,7 +124,7 @@ public struct QGrid<Data, Content>: View
   
   private func contentWidthFor(_ geometry: GeometryProxy) -> CGFloat {
     let hSpacings = hSpacing * (CGFloat(self.cols) - 1)
-    let width = geometry.size.width - hSpacings - (padding.leading + padding.trailing) * 2
+    let width = geometry.size.width - hSpacings - (padding.leading + padding.trailing)
     return width / CGFloat(self.cols)
   }
 }
